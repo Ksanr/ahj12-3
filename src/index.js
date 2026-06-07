@@ -44,15 +44,19 @@ async function loadNews() {
     const data = await response.json();
     currentData = data;
     renderNews(data);
-    isError = false;
-    errorMessageDiv.classList.add('hidden');
+
+    // Проверяем, пришли ли данные из кэша (заголовок X-Cache)
+    const fromCache = response.headers.get('X-Cache') === 'HIT';
+    if (fromCache) {
+      errorMessageDiv.classList.remove('hidden');
+    } else {
+      errorMessageDiv.classList.add('hidden');
+    }
   } catch (err) {
     console.error('Ошибка загрузки:', err);
     isError = true;
     errorMessageDiv.classList.remove('hidden');
-    if (!currentData) {
-      newsListDiv.innerHTML = '<div class="skeleton-item">Не удалось загрузить новости. Проверьте соединение.</div>';
-    }
+    newsListDiv.innerHTML = '<div class="skeleton-item">Не удалось загрузить новости. Проверьте соединение.</div>';
   }
 }
 

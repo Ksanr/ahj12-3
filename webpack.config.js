@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -41,6 +42,14 @@ module.exports = {
       'process.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL || '')
     })
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        exclude: /sw\.js$/,   // ← не минифицировать Service Worker
+      }),
+    ],
+  },
   devServer: {
     static: './dist',
     port: 8080,
