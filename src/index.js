@@ -1,3 +1,6 @@
+const API_BASE = process.env.API_BASE_URL || '';
+const url = `${API_BASE}/api/news`;
+
 require('./styles.css');
 
 const newsListDiv = document.getElementById('newsList');
@@ -34,7 +37,7 @@ function escapeHtml(str) {
 // Загрузка новостей с API
 async function loadNews() {
   try {
-    const response = await fetch('/api/news');
+    const response = await fetch(url); //вместо локального ('/api/news');
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }

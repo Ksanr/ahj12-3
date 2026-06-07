@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.js',
@@ -35,6 +36,9 @@ module.exports = {
       patterns: [
         { from: 'src/sw.js', to: 'sw.js' }
       ]
+    }),
+    new webpack.DefinePlugin({
+      'process.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL || '')
     })
   ],
   devServer: {
